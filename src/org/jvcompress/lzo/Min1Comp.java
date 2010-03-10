@@ -31,9 +31,7 @@
    Copyright (C) 2010 Mahadevan Gorti Surya Srinivasa <sgorti@gmail.com>
  */
 package org.jvcompress.lzo;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -124,7 +122,7 @@ public class Min1Comp {
        	try{
        		String file=System.getProperty("DICT","c:/words.txt");
        		fis = new BufferedInputStream(new FileInputStream(file));
-       	for(;;){
+       	   for(;;){
        		int read=fis.read(in_rand);
        		if(read < 0) break;
        		for(int ii=0;ii<10;ii++){
@@ -151,14 +149,14 @@ public class Min1Comp {
        				}
        			}
        		}
-       	}
+       	   }
+	}catch(FileNotFoundException fnf){
        	}catch(Exception e){
        		e.printStackTrace();
        	}finally{
        		try {
-				fis.close();
-			} catch (IOException e) {
-			}
+			if(fis!=null)fis.close();
+		} catch (IOException e) {}
        	}
        	
 	}

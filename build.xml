@@ -42,4 +42,18 @@
          basedir="${classes.dir}"/>
   </target>
 
+  <target name="run" depends="compile" description="Run sample program">
+	  <java classname="org.jvcompress.lzo.Min1Comp"
+           fork="true"
+           failonerror="true"
+           maxmemory="128m"
+           >
+         <!--arg value="-h"/-->
+         <classpath>
+		 <pathelement location="${dist.jar}"/>
+           <pathelement path="${java.class.path}"/>
+         </classpath>
+       </java>
+
+  </target>	  
 </project>
