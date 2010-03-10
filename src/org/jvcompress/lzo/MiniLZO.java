@@ -1,7 +1,49 @@
+/* LZOConstants.java -- various constants (Original file)
+
+   This file is part of the LZO real-time data compression library.
+
+   Copyright (C) 1999 Markus Franz Xaver Johannes Oberhumer
+   Copyright (C) 1998 Markus Franz Xaver Johannes Oberhumer
+   Copyright (C) 1997 Markus Franz Xaver Johannes Oberhumer
+   Copyright (C) 1996 Markus Franz Xaver Johannes Oberhumer
+
+   The LZO library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License as
+   published by the Free Software Foundation; either version 2 of
+   the License, or (at your option) any later version.
+
+   The LZO library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with the LZO library; see the file COPYING.
+   If not, write to the Free Software Foundation, Inc.,
+   59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+   Markus F.X.J. Oberhumer
+   <markus.oberhumer@jk.uni-linz.ac.at>
+   http://wildsau.idv.uni-linz.ac.at/mfx/lzo.html
+   
+
+   Java Porting of minilzo.c (2.03) by
+   Copyright (C) 2010 Mahadevan Gorti Surya Srinivasa <sgorti@gmail.com>
+ */
 package org.jvcompress.lzo;
 import java.io.*;
 
 import org.jvcompress.util.MInt;
+
+/**  Java ported code of minilzo.c(2.03).
+ *
+ * All compress/decompress/decompress_safe were ported. Original java version of MiniLZO supported 
+ * only decompression via Lzo1xDecompressor.java and Lzo1xDecompressor ported way back in 1999.
+ *
+ * This new MiniLZO.java based was taken from minilzo.c version 2.03. 
+ * 
+ *  @author mahadevan.gss
+ */
 
 public final class MiniLZO implements LZOConstants{
   public static final int c_top_loop=1;
@@ -25,6 +67,7 @@ public final class MiniLZO implements LZOConstants{
   public static final int c0_last=7;
 
   private static final boolean debug=false;
+  // Is there in original, later remove to reduce function call overhead
   private static final int U(byte b) {
     return b & 0xff;
   }
@@ -71,6 +114,7 @@ public final class MiniLZO implements LZOConstants{
         e.printStackTrace();
       }
   }
+  
   private final static int _lzo1x_1_do_compress (final byte[] in ,final int  in_len,final byte[] out, MInt out_len, int[] dict){
     int ip=0;
     int in_base=0;
@@ -238,6 +282,17 @@ loop0:  for (;;) {
     return (in_end-ii);
   }
 
+  /** Compress the data. Error codes would be returned (@see LZOConstants). 
+   * Compressed length is returned via out_len. Pass the integer array for 
+   * dictionary(so that user can reuse the same over multiple calls. Ensure 
+   * to zero out the dict contents).
+   *
+   * @param in Input byte array to be compressed
+   * @param in_len Input length 
+   * @param out  compressed output byte array. Ensure out_len =  (in_len + in_len / 16 + 64 + 3)
+   * @param out_len Compressed data length
+   * @param dict Dictionary array. Zero out before reuse.
+   */
   public final  static int lzo1x_1_compress(final byte[] in,final int in_len, final byte[] out, MInt out_len, int[] dict ) {
     int in_base=0;
     int out_base=0;
@@ -279,6 +334,16 @@ loop0:  for (;;) {
     out_len.v = (op-out_base);
     return 0;
   }
+  
+  /** Decompress the data. Error codes would be returned (@see LZOConstants). 
+   * Decompressed length is returned via out_len. 
+   *
+   * @param in Input byte array to be decompressed
+   * @param in_len Input length 
+   * @param out  decompressed output byte array. Ensure that out array has sufficient length 
+   * @param out_len decompressed data length
+   */
+
   public final static int lzo1x_decompress ( final byte[] in ,final  int in_len,final byte[] out, MInt out_len) {
     int op=0;
     int ip=0;
@@ -463,6 +528,16 @@ top_loop_ori: do{
     //return (ip == ip_end ? 0 : (ip < ip_end ? (-8) : (-4)));
     return (ip == in.length ? 0 : (ip < in.length ? (-8) : (-4)));
   }
+
+   
+  /** Decompress the data safely with more error checks. Error codes would be returned (@see LZOConstants). 
+   * Decompressed length is returned via out_len. 
+   *
+   * @param in Input byte array to be decompressed
+   * @param in_len Input length 
+   * @param out  decompressed output byte array. Ensure that out array has sufficient length 
+   * @param out_len decompressed data length
+   */
 
   public final static int lzo1x_decompress_safe ( final byte[] in , int in_len,byte[] out, MInt out_len ) {
     int op=0;

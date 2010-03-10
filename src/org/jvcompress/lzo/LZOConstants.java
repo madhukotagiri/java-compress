@@ -1,4 +1,4 @@
-/* Constants.java -- various constants (Original file)
+/* LZOConstants.java -- various constants (Original file)
 
    This file is part of the LZO real-time data compression library.
 
@@ -25,6 +25,10 @@
    Markus F.X.J. Oberhumer
    <markus.oberhumer@jk.uni-linz.ac.at>
    http://wildsau.idv.uni-linz.ac.at/mfx/lzo.html
+   
+
+   Java Porting of minilzo.c (2.03) by
+   Copyright (C) 2010 Mahadevan Gorti Surya Srinivasa <sgorti@gmail.com>
  */
 package org.jvcompress.lzo;
 

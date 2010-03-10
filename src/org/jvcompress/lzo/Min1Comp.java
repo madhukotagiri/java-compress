@@ -1,3 +1,35 @@
+/* LZOConstants.java -- various constants (Original file)
+
+   This file is part of the LZO real-time data compression library.
+
+   Copyright (C) 1999 Markus Franz Xaver Johannes Oberhumer
+   Copyright (C) 1998 Markus Franz Xaver Johannes Oberhumer
+   Copyright (C) 1997 Markus Franz Xaver Johannes Oberhumer
+   Copyright (C) 1996 Markus Franz Xaver Johannes Oberhumer
+
+   The LZO library is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License as
+   published by the Free Software Foundation; either version 2 of
+   the License, or (at your option) any later version.
+
+   The LZO library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with the LZO library; see the file COPYING.
+   If not, write to the Free Software Foundation, Inc.,
+   59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+   Markus F.X.J. Oberhumer
+   <markus.oberhumer@jk.uni-linz.ac.at>
+   http://wildsau.idv.uni-linz.ac.at/mfx/lzo.html
+   
+
+   Java Porting of minilzo.c (2.03) by
+   Copyright (C) 2010 Mahadevan Gorti Surya Srinivasa <sgorti@gmail.com>
+ */
 package org.jvcompress.lzo;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -7,6 +39,11 @@ import java.util.Random;
 
 import org.jvcompress.util.MInt;
 
+/**  Sample test program for testing the basic sanity of ported minilzo.c.
+ * 
+ * 
+ *  @author mahadevan.gss
+ */
 
 public class Min1Comp {
 	private static final int IN_LEN=1024*1024;
@@ -24,10 +61,12 @@ public class Min1Comp {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+                System.out.println("Usage: java [-DDICT=c:/words.txt] org.jvcompress.lzo.Min1Comp");
 		int[] dict = new int[128*1024]; 
 		byte[] in = new byte[IN_LEN];
 		byte[] out = new byte[OUT_LEN];
 		MInt outL=new MInt();
+                // Try zero-filled data
 		for(int ii=0;ii<10;ii++){
 			clearDict(dict);
 			long l1 = System.currentTimeMillis();
@@ -52,12 +91,14 @@ public class Min1Comp {
        	byte[] in_rand = new byte[IN_LEN];
        	int[] partial = new int[]{16,32,64,128,192,224,256};
        	
+        // Then Try random-filled data
        	for(int j=0;j<partial.length;j++){
        		int lim=partial[j];
        		for(int ii=0;ii<10;ii++){
        			
        			clearDict(dict);
        			boolean repeatPattern=ii >= 5;
+                        // For first 5 iteration pure Random data, then some repeated chars
        			fillPartillyRandom(lim, in_rand, ran,repeatPattern);
        			System.arraycopy(in_rand, 0, in, 0, in_rand.length);
        			long l1 = System.currentTimeMillis();
@@ -78,6 +119,7 @@ public class Min1Comp {
        			}
        		}
        	}
+        // Then Try some user given data-file
        	BufferedInputStream fis=null;
        	try{
        		String file=System.getProperty("DICT","c:/words.txt");
