@@ -1,0 +1,24 @@
+# use glob syntax.
+syntax: glob
+
+*.elc
+*.pyc
+*.swp
+*.zip
+*.class
+*.jar
+*.html
+*.LIB
+*.css
+*~
+
+# switch to regexp syntax.
+syntax: regexp
+^\.pc/
+^q+$
+^.*package-list$
+^md5sums.*$
+^tags$
+^javadocs/.*$
+^COPYING.*$
+
