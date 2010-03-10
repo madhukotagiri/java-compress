@@ -12,7 +12,7 @@
 
    Copyright (C) 2010 Mahadevan Gorti Surya Srinivasa <sgorti@gmail.com>
  */
-package org.jvcompress.lzo;
+
 
 /**  Mutable integer
  * 

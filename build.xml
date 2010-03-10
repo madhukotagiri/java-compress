@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is ant (http://ant.apache.org) build script to build -->
+ 
+<project name="java-compress" default="all" basedir=".">
+
+  <!-- property definitions -->
+  <property name="app.name" value="java-compress"/>
+  <property name="app.version"  value="0.1"/>
+  <property name="src.dir"  value="src"/>  
+  <property name="build.dir"  value="${basedir}/lib"/>
+  <property name="dist.jar" value="${build.dir}/${app.name}-${app.version}.jar"/>
+  <property name="classes.dir"  value="${build.dir}/classes"/>
+  <property name="resources.dir"  value="${classes.dir}/res"/>
+
+
+  <!-- make directories required -->
+  <target name="prepare">
+    <mkdir dir="${classes.dir}"/>
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${resources.dir}"/>
+  </target>
+
+  <target name="clean">
+     <delete file="${dist.jar}"/>
+     <delete dir="${classes.dir}"/>
+     <delete dir="${resources.dir}"/>
+  </target>
+
+  <target name="compile" depends="prepare" description="compiles the sources">
+    <javac srcdir="${src.dir}"
+           destdir="${classes.dir}"
+           debug="on" deprecation="on">
+    </javac>
+    <copy todir="${resources.dir}">
+      <fileset dir="${basedir}/res"/>
+    </copy>
+  </target>
+
+  <target name="all" depends="compile" description="build java-compress">
+    <jar jarfile="${dist.jar}"
+         basedir="${classes.dir}"/>
+  </target>
+
+</project>

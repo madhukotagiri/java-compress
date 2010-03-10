@@ -524,7 +524,7 @@ top_loop_ori: do{
     //eof_found:
     //out_len = ((lzo_uint) ((op)-(out)));
     out_len.v = op;
-    System.err.println("\n@@@@@@@@@@@@ diff:"+max+": min:"+min+"\n");
+    if(debug) System.err.println("\n@@@@@@@@@@@@ diff:"+max+": min:"+min+"\n");
     //return (ip == ip_end ? 0 : (ip < ip_end ? (-8) : (-4)));
     return (ip == in.length ? 0 : (ip < in.length ? (-8) : (-4)));
   }
