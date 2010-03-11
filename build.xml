@@ -6,10 +6,11 @@
 
   <!-- property definitions -->
   <property name="app.name" value="java-compress"/>
-  <property name="app.version"  value="0.1"/>
+  <property name="app.version"  value="0.1-alpha"/>
   <property name="src.dir"  value="src"/>  
   <property name="build.dir"  value="${basedir}/lib"/>
   <property name="dist.jar" value="${build.dir}/${app.name}-${app.version}.jar"/>
+  <property name="dist.tar" value="${build.dir}/${app.name}-${app.version}.tar.gz"/>
   <property name="classes.dir"  value="${build.dir}/classes"/>
   <property name="resources.dir"  value="${classes.dir}/res"/>
 
@@ -24,6 +25,7 @@
   <target name="clean">
      <delete file="${dist.jar}"/>
      <delete dir="${classes.dir}"/>
+     <delete dir="${build.dir}"/>
      <delete dir="${resources.dir}"/>
   </target>
 
@@ -42,6 +44,17 @@
          basedir="${classes.dir}"/>
   </target>
 
+  <target name="tar" depends="all" description="Create tar file">
+   <tar destfile="${dist.tar}" compression="gzip" >
+     <tarfileset dir="${build.dir}" username="ant" group="ant">
+        <include name="*.jar"/>
+     </tarfileset>
+     <tarfileset dir="${src.dir}">
+	     <include name="**/*.java"/>
+     </tarfileset>
+   </tar>
+   </target> 
+  
   <target name="run" depends="compile" description="Run sample program">
 	  <java classname="org.jvcompress.lzo.Min1Comp"
            fork="true"
