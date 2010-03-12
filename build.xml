@@ -52,6 +52,9 @@
      <tarfileset dir="${src.dir}">
 	     <include name="**/*.java"/>
      </tarfileset>
+     <tarfileset dir="${basedir}">
+	     <include name="build.xml"/>
+     </tarfileset>
    </tar>
    </target> 
   

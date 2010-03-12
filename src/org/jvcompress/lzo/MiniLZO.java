@@ -349,7 +349,7 @@ loop0:  for (;;) {
     int ip=0;
     int t;
     int  state=c_top_loop; 
-    int max=0, diff=0,min=0;
+    //int max=0, diff=0,min=0;
     int m_pos=0;
     int ip_end = in_len;
 
@@ -415,8 +415,8 @@ top_loop_ori: do{
             //m_pos -= t >> 2;
             //m_pos -= U(in[ip++]) << 2;
             m_pos = op - 0x801 - (t >> 2) - ((in[ip++] & 0xff) << 2);
-            diff=Math.abs(m_pos - op); if(diff > max) max=diff;
-            diff=(m_pos - op); if(diff < min) min=diff;
+            //diff=Math.abs(m_pos - op); if(diff > max) max=diff;
+            //diff=(m_pos - op); if(diff < min) min=diff;
             //*op++ = *m_pos++; *op++ = *m_pos++; *op++ = *m_pos;
             out[op++] = out[m_pos++]; out[op++] = out[m_pos++]; out[op++] = out[m_pos];
 
@@ -428,8 +428,8 @@ top_loop_ori: do{
               m_pos = op - 1;
               m_pos -= (t >> 2) & 7;
               m_pos -= (in[ip++] & 0xff) << 3;
-              diff=Math.abs(m_pos - op); if(diff > max) max=diff;
-              diff=(m_pos - op); if(diff < min) min=diff;
+              //diff=Math.abs(m_pos - op); if(diff > max) max=diff;
+              //diff=(m_pos - op); if(diff < min) min=diff;
               t = (t >> 5) - 1;
               state = c_copy_match; continue top_loop_ori;//goto copy_match;
 
@@ -444,15 +444,15 @@ top_loop_ori: do{
               }
               m_pos = op - 1;
               m_pos -= (( (in[ip] & 0xff) + ( (in[ip+1] & 0xff) << 8) ) >> 2);//m_pos -= (* (const unsigned short *) ip) >> 2;
-              diff=Math.abs(m_pos - op); if(diff > max) max=diff;
-              diff=(m_pos - op); if(diff < min) min=diff;
+              //diff=Math.abs(m_pos - op); if(diff > max) max=diff;
+              //diff=(m_pos - op); if(diff < min) min=diff;
               
               ip += 2;
             } else if (t >= 16) {
               m_pos = op;
               m_pos -= (t & 8) << 11;
-              diff=Math.abs(m_pos - op); if(diff > max) max=diff;
-              diff=(m_pos - op); if(diff < min) min=diff;
+              //diff=Math.abs(m_pos - op); if(diff > max) max=diff;
+              //diff=(m_pos - op); if(diff < min) min=diff;
               
               t &= 7;
               if (t == 0) {
@@ -463,8 +463,8 @@ top_loop_ori: do{
                 t += 7 + (in[ip++] & 0xff);
               }
               m_pos -= (( (in[ip] & 0xff) + ( (in[ip+1] & 0xff) << 8) ) >> 2);//m_pos -= (* (const unsigned short *) ip) >> 2;
-              diff=Math.abs(m_pos - op); if(diff > max) max=diff;
-              diff=(m_pos - op); if(diff < min) min=diff;
+              //diff=Math.abs(m_pos - op); if(diff > max) max=diff;
+              //diff=(m_pos - op); if(diff < min) min=diff;
               ip += 2;
               if (m_pos == op){
                 break top_loop_ori;//goto eof_found;
@@ -474,8 +474,8 @@ top_loop_ori: do{
               m_pos = op - 1;
               m_pos -= t >> 2;
               m_pos -= (in[ip++] & 0xff) << 2;
-              diff=Math.abs(m_pos - op); if(diff > max) max=diff;
-              diff=(m_pos - op); if(diff < min) min=diff;
+              //diff=Math.abs(m_pos - op); if(diff > max) max=diff;
+              //diff=(m_pos - op); if(diff < min) min=diff;
               
               out[op++] = out[m_pos++]; out[op++] = out[m_pos];//*op++ = *m_pos++; *op++ = *m_pos;
               state=c_match_done;continue top_loop_ori;//goto match_done;
@@ -524,7 +524,7 @@ top_loop_ori: do{
     //eof_found:
     //out_len = ((lzo_uint) ((op)-(out)));
     out_len.v = op;
-    if(debug) System.err.println("\n@@@@@@@@@@@@ diff:"+max+": min:"+min+"\n");
+    //if(debug) System.err.println("\n@@@@@@@@@@@@ diff:"+max+": min:"+min+"\n");
     //return (ip == ip_end ? 0 : (ip < ip_end ? (-8) : (-4)));
     return (ip == in.length ? 0 : (ip < in.length ? (-8) : (-4)));
   }
